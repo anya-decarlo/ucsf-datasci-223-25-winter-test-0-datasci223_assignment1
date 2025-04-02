@@ -50,26 +50,29 @@ This assignment will help you practice:
 Replace the "Part 1" section with:
 - A brief introduction about yourself (first name only)
 - What you're hoping to get out of this course
+- Topics you would like to see included
 - A musical recommendation and a link to something about it (song, album, artist)
 
 ### Part 2: Complete the email_hasher.py Script
 The email_hasher.py script should:
 1. Accept an email address as a command line argument
 2. Hash the email using the SHA-256 algorithm from the hashlib library
-3. Write the hash in hexadecimal format to a file named 'hash.email'
+3. Print the hash in hexadecimal format to stdout
 
 Example usage:
 ```
 python email_hasher.py "example@email.com"
 ```
 
-After running this command, a file named 'hash.email' should be created containing the SHA-256 hash of 'example@email.com' in hexadecimal format.
+After running this command, the script should print the SHA-256 hash of 'example@email.com' in hexadecimal format to the terminal.
+
+To complete the assignment, you need to redirect the output of the script to a file named 'hash.email'. The tests will check that this file exists and contains a valid hash.
 
 Your script must pass the automated tests:
 - It should handle command line arguments correctly
 - It should use the SHA-256 algorithm specifically
 - It should output the hash in hexadecimal format
-- It should create a file named 'hash.email' with the hash as content
+- The hash.email file should exist and contain a valid hash
 
 ### Example Solution Structure
 ```python
@@ -115,7 +118,7 @@ Your submission will be graded based on:
 4. Proper file output
 5. Completion of the README.md with the required information
 
-## Optional Additional Practice
+## Optional Python Practice
 - Work on the [Whirlwind Tour of Python](https://jakevdp.github.io/WhirlwindTourOfPython/) chapters (through ch7, "Control Flow Statements") alongside the notebooks [on GitHub](https://github.com/jakevdp/WhirlwindTourOfPython)
     1. Work through examples in your own development branch
     2. Commit your changes when you've reached good stopping points
