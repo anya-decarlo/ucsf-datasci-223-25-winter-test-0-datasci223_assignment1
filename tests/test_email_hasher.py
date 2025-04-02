@@ -22,10 +22,12 @@ def test_correct_hash():
     
     assert result.stdout.strip() == EXPECTED_SHA256_HASH, "Hash does not match expected SHA-256 hash"
 
+def test_hash_file_exists():
+    """Test that hash.email file exists"""
+    assert os.path.exists("hash.email"), "hash.email file does not exist"
+
 def test_hash_file_format():
-    """Test that hash.email contains something that looks like a hash"""
-    assert os.path.exists("hash.email"), "hash.email file was not created"
-    
+    """Test that hash.email contains a valid hash"""
     with open("hash.email", "r") as f:
         content = f.read().strip()
     
