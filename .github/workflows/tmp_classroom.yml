@@ -1,4 +1,4 @@
-name: Auto-grading (Simplified Upstream Fetch, Unified Tests, No legacy tests/)
+name: Auto-grading (Simplified Upstream Fetch, Tests in .github, Unified)
 
 on:
   push:
