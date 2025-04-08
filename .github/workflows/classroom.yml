@@ -12,11 +12,92 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0  # Fetch all history for all branches and tags
     
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.10'
+    
+    - name: Pull updates from upstream (read-only)
+      run: |
+        # IMPORTANT: This workflow only pulls from upstream and does not push any changes back to it
+        
+        # Configure git to allow merging unrelated histories
+        git config --global pull.rebase false
+        
+        # Set git user identity
+        git config --global user.name "GitHub Actions Bot"
+        git config --global user.email "actions@github.com"
+        
+        # Hardcoded upstream repository URL (using HTTPS instead of SSH)
+        # Using a read-only URL to prevent accidental pushes
+        UPSTREAM_URL="https://github.com/UCSF-DataSci/ucsf-datasci-223-25-winter-test-0-datasci223_assignment1.git"
+        echo "Setting upstream to: $UPSTREAM_URL (read-only)"
+        
+        # Add the upstream repository as a read-only remote
+        git remote add upstream $UPSTREAM_URL
+        
+        # Fetch the latest changes from upstream (read-only)
+        git fetch upstream
+        
+        # Save the current branch name BEFORE creating temp branch
+        ORIGINAL_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+        
+        # Create a temporary branch for the merge
+        git checkout -b temp-merge-branch
+        
+        # Try to merge the upstream changes
+        if git merge upstream/main --allow-unrelated-histories; then
+          echo "Merge successful"
+        else
+          echo "Merge had conflicts, resolving them"
+          
+          # Resolve conflicts in classroom.yml if it exists
+          if [ -f ".github/workflows/classroom.yml" ]; then
+            echo "Resolving conflicts in classroom.yml"
+            git checkout --theirs .github/workflows/classroom.yml
+            git add .github/workflows/classroom.yml
+          fi
+          
+          # Resolve conflicts in tests directory if it exists
+          if [ -d "tests/" ]; then
+            echo "Resolving conflicts in tests directory"
+            git checkout --theirs tests/
+            git add tests/
+          fi
+          
+          # Complete the merge
+          git commit -m "Merge updates from upstream template"
+        fi
+        
+        # Switch back to the original branch saved earlier
+        if [ "$ORIGINAL_BRANCH" != "HEAD" ]; then
+          echo "Switching back to $ORIGINAL_BRANCH"
+          git checkout $ORIGINAL_BRANCH
+        else
+          echo "Switching back to origin/main"
+          git checkout origin/main
+        fi
+        
+        # Apply the changes from the temporary branch
+        git merge temp-merge-branch --allow-unrelated-histories
+        
+        # Ensure we are on the original branch before deleting temp-merge-branch
+        git checkout $ORIGINAL_BRANCH || git checkout origin/main
+        
+        # Clean up
+        git branch -D temp-merge-branch
+        
+        # Remove the upstream remote to prevent accidental pushes
+        git remote remove upstream
+        
+        # Verify that the upstream remote is gone
+        if git remote | grep -q upstream; then
+          echo "ERROR: Failed to remove upstream remote"
+          exit 1
+        fi
     
     - name: Install dependencies
       run: |
