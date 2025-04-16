@@ -49,11 +49,11 @@ This assignment will help you practice:
 - Clone the repository to your local machine to begin working on the assignment
 
 ### Part 1: Update this README.md
-Replace the "Part 1" section with:
-- A brief introduction about yourself (first name only)
-- What you're hoping to get out of this course
-- Topics you would like to see included
-- A musical recommendation and a link to something about it (song, album, artist)
+1. ANYA - UCSF student 
+2. Research interests - Spatial Proteomics, AI, Clinical Informatics, Bayesian Statistics, and  Palliative Care.
+3. I am a 1st year graduate student.
+4. I am a preclinical student.
+5. Music recommendation: Radiohead - OK Computer https://open.spotify.com/album/6dVIqQ8qmQ5GBnJ9shOYGE
 
 ### Part 2: Complete the email_hasher.py Script
 The email_hasher.py script should:
